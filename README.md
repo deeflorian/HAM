@@ -1,1 +1,1 @@
-HAM is a homework assignment/assigning module under development.
+HAM is a homework assignment/assigning module.
