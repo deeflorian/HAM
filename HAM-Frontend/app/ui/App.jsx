@@ -5,7 +5,6 @@ import IconButton from 'material-ui/IconButton';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import Checkbox from 'material-ui/Checkbox';
-import Toggle from 'material-ui/Toggle';
 import MenuItem from 'material-ui/MenuItem';
 import {List, ListItem} from 'material-ui/List'
 import SelectField from 'material-ui/SelectField';
@@ -38,42 +37,65 @@ const styles = {
 };
 
 const activeSemestersTest = [
-    {key: 1, label: '2016/2'},
-    {key: 2, label: '2016/1'},
-    {key: 3, label: '2015/2'},
-    {key: 4, label: '2015/1'},
-    {key: 5, label: '2014/2'},
-    {key: 6, label: '2014/1'},
-    {key: 7, label: '2013/2'},
-    {key: 8, label: '2013/1'},
-    {key: 9, label: '2012/2'},
-    {key: 10, label: '2012/1'},
-    {key: 11, label: '2011/2'},
-    {key: 12, label: '2011/1'},
-    {key: 13, label: '2010/2'},
-    {key: 14, label: '2010/1'},
+    '2016/2',
+    '2016/1',
+    '2015/2',
+    '2015/1',
+    '2014/2',
+    '2014/1',
+    '2013/2',
+    '2013/1',
+    '2012/2',
+    '2012/1',
+    '2011/2',
+    '2011/1',
+    '2010/2',
+    '2010/1'
 ];
 
+const activeCoursesTest = [
+    {code: "VIMIAA00", name: "System Modeling"},
+    {code: "VIMIA313", name: "Artificial Intelligence"}
+];
 
 export default class App extends React.Component {
 
     constructor() {
         super();
+
+        this.courseFilterComponents = [];
         this.state = {
-            currentSemester: activeSemestersTest[0]
+            currentSemester: activeSemestersTest[0],
+            statusFilters: new Set(),
+            courseFilters: new Set(),
         }
     }
 
     handleSemesterChange(event, index, value) {
-        setState({currentSemester: value})
+        //alert(value);
+        this.setState({currentSemester: value});
     }
 
-    handleStatusChange(event, index, value) {
-
+    handleStatusFilterChange(status, event, checked) {
+        var filters = this.state.statusFilters;
+        if (checked) {
+            filters.add(status);
+        } else {
+            filters.delete(status);
+        }
+        this.setState({statusFilters: filters});
+        alert(filters.size)
     }
 
-    handleCourseChange(event, index, value) {
-
+    handleCourseFilterChange(course, event, checked) {
+        var filters = this.state.courseFilters;
+        if (checked) {
+            filters.add(course);
+        } else {
+            filters.delete(course);
+        }
+        this.setState({courseFilters: filters});
+        alert(filters.size)
     }
 
     render() {
@@ -88,31 +110,64 @@ export default class App extends React.Component {
                     <Drawer open={true} containerStyle={styles.drawerContainer}>
                         <div style={styles.semesterSelectorContainer}>
                             <span>Active semester:</span>
+
                             <SelectField
-                                value={this.state.currentSemester.key}
-                                label={this.state.currentSemester.label}
+                                value={this.state.currentSemester}
                                 style={styles.semesterSelector}
                                 maxHeight={300}
-                                onChange={() => {
-                                    this.handleSemesterChange
-                                }}>
+                                onChange={this.handleSemesterChange.bind(this)}>
                                 {activeSemestersTest.map((semester) => {
                                     return (
-                                        <MenuItem key={semester.key} value={semester.key} primaryText={semester.label}/>
+                                        <MenuItem
+                                            key={semester}
+                                            value={semester}
+                                            primaryText={semester} />
                                     );
                                 })}
                             </SelectField>
                         </div>
                         <List>
                             <Subheader>Filter by assignment status</Subheader>
-                            <ListItem primaryText="Active" leftCheckbox={<Checkbox />} />
-                            <ListItem primaryText="Completed" leftCheckbox={<Checkbox />} />
+                            <ListItem
+                                key="active"
+                                primaryText="Active"
+                                //onChange={this.handleCourseFilterChange.bind(this)}
+                                leftCheckbox={<Checkbox
+                                    onCheck={this.handleStatusFilterChange.bind(this, "active")}
+                                />}
+                            />
+                            <ListItem
+                                key="uploaded"
+                                primaryText="Uploaded"
+                                //onChange={this.handleCourseFilterChange.bind(this)}
+                                leftCheckbox={<Checkbox
+                                    onCheck={this.handleStatusFilterChange.bind(this, "uploaded")}
+                                />}
+                            />
+                            <ListItem
+                                key="completed"
+                                primaryText="Completed"
+                                //onChange={this.handleCourseFilterChange.bind(this)}
+                                leftCheckbox={<Checkbox
+                                    onCheck={this.handleStatusFilterChange.bind(this, "completed")}
+                                />}
+                            />
                         </List>
                         <Divider />
-                        <List>
+                        <List ref="courseList">
                             <Subheader>Filter by course</Subheader>
-                            <ListItem primaryText="Artificial Intelligence" leftCheckbox={<Checkbox />} />
-                            <ListItem primaryText="Systems Engineering" leftCheckbox={<Checkbox />} />
+                            {activeCoursesTest.map((course) => {
+                                return (
+                                    <ListItem
+                                        key={course.code}
+                                        primaryText={course.name}
+                                        //onChange={this.handleCourseFilterChange.bind(this)}
+                                        leftCheckbox={<Checkbox
+                                            onCheck={this.handleCourseFilterChange.bind(this, course.code)}
+                                        />}
+                                    />
+                                )
+                            })}
                         </List>
                     </Drawer>
                     <div style={styles.container}>
