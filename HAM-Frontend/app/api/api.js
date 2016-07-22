@@ -22,8 +22,8 @@ exports.getAssigmentData = function() {
   if(isTesting) {
     let tomorrow = new Date();
     let yesterday = new Date();
-    tomorrow.setDay(tomorrow.getDay() + 1);
-    yesterday.setDay(yesterday.getDay() + 1);
+    tomorrow.setDate(tomorrow.getDate() - tomorrow.getDay() + 1);
+    yesterday.setDate(yesterday.getDate()  - yesterday.getDay() - 1);
     return [
       {
         course: {  // Later on this could be assembled on the client side so there is no need to send the detailed course description multiple times. Such optimizations seem quite insignificant on the other hand...
