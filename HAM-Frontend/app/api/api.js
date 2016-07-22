@@ -32,7 +32,7 @@ exports.getAssigmentData = function() {
           semester: "2016/2",
         },
         assignment: {
-          title: "Neural network",
+          title: "Neural networks",
           description: "Create an application that recognises images, using neural networks.",
           details: "Dat very long text that explains to the student what will he need to do in order to complete the assingment. A really... really... reaaaaaaaaaaaaallly long line. Hopefully.",
           deadline: tomorrow,
@@ -46,7 +46,7 @@ exports.getAssigmentData = function() {
           semester: "2016/2",
         },
         assignment: {
-          title: "Neural network",
+          title: "Neural networks",
           description: "Collect and upload images in preparation of the next assignment.",
           details: "Lazy teacher writes nuthin' here.",
           deadline: yesterday,
