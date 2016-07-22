@@ -19,7 +19,7 @@ let isTesting = true;
 
 // Gets the assignments of a single user.
 exports.getAssigmentData = function() {
-  if(isTest) {
+  if(isTesting) {
     let tomorrow = new Date();
     let yesterday = new Date();
     tomorrow.setDay(tomorrow.getDay() + 1);
