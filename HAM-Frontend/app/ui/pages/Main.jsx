@@ -1,6 +1,7 @@
 import React from 'react';
 import Api from '../../api/api.js';
-import Paper from 'material-ui/Paper';
+
+import AssignmentCard from '../widgets/AssignmentCard';
 
 let style = {
   mainContainer: {
@@ -10,11 +11,7 @@ let style = {
     flexDirection: "column",
     paddingTop: "32px",
   },
-  paper: {
-    marginBottom: "16px",
-    marginTop: "16px",
-  }
-}
+};
 
 export default class Main extends React.Component {
   componentWillMount() {
@@ -29,11 +26,9 @@ export default class Main extends React.Component {
 
     // Checking null and undefined values -- should not happen, but still...
     if(assignmentData) {
-      assignmentData.forEach(function(assignment) {
+      assignmentData.forEach(function(cardProps, i) {
         let card = (
-          <Paper style={style.paper}>
-            <p>{assignment.assignment.title}</p>
-          </Paper>
+          <AssignmentCard info={cardProps} style={style.paper} key={i} />
         );
         cards.push(card);
       });
