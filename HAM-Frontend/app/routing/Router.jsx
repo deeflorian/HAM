@@ -2,7 +2,7 @@ import React from 'react';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
 import App from '../ui/App'
-import Main from '../ui/pages/Main'
+import Main from '../ui/pages/Assignments'
 
 export const renderRoutes = () => (
     <Router history={browserHistory}>
